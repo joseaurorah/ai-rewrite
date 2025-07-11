@@ -61,7 +61,7 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
 
     // Helper to highlight added/changed words in output
     function getHighlightedOutput(input: string, output: string) {
-        const dmp: DiffMatchPatchType = new DiffMatchPatch();
+        const dmp = new DiffMatchPatch();
         // Word-level diff: split on spaces, join with special char, diff, then rejoin
         const inputWords = input.split(/(\s+)/);
         const outputWords = output.split(/(\s+)/);
