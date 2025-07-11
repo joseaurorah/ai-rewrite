@@ -103,7 +103,7 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
                                 <span className={`text-sm ${countWords(userInput) > 1000 ? "text-red-600" : "text-accent_one"} font-semibold`}>{countWords(userInput)}/1000 Words</span>
                             </div>
                             <Button disabled={isLoading || userInput.length < 20 || userInput.length >= 2000} className='px-6 py-2 rounded-full text-lg bg-green-600 hover:bg-green-700 text-white shadow transition-colors duration-200' onClick={() => paraphrase(userInput, activeStyle, activeLanguage)}>
-                                {isLoading ? "Paraphrasing..." : "Paraphrase"}
+                                {isLoading ? "Paraphrasing..." : (userOutput ? "Rephrase" : "Paraphrase")}
                             </Button>
                         </div>
                     </div>
