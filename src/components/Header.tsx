@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 function Header() {
   return (
     <>
-      <div className="flex py-3 justify-between border-b border-b-slate-200">
+      <div className="sticky top-0 z-30 bg-white flex py-3 justify-between border-b border-b-slate-200">
         <div className="container justify-between flex items-center">
           <div className="flex items-center gap-2">
             <svg

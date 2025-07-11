@@ -7,7 +7,11 @@ import LanguageTabs from "@/components/LanguageTabs";
 
 const modes = [
   {
-    language: "english",
+    language: "english (us)",
+    tones: ["standard", "natural", "formal", "informal", "funny"]
+  },
+  {
+    language: "english (uk)",
     tones: ["standard", "natural", "formal", "informal", "funny"]
   },
   {
