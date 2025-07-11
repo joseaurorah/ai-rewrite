@@ -8,19 +8,19 @@ import LanguageTabs from "@/components/LanguageTabs";
 const modes = [
   {
     language: "english (us)",
-    tones: ["standard", "natural", "formal", "informal", "funny"]
+    tones: ["standard", "natural", "formal", "academic", "informal", "funny"]
   },
   {
     language: "english (uk)",
-    tones: ["standard", "natural", "formal", "informal", "funny"]
+    tones: ["standard", "natural", "formal", "academic", "informal", "funny"]
   },
   {
     language: "spanish",
-    tones:  ["standard", "natural", "formal", "informal", "funny"]
+    tones:  ["standard", "natural", "formal", "academic", "informal", "funny"]
   },
   {
     language: "french",
-    tones: ["standard", "natural", "formal", "informal", "funny"]
+    tones: ["standard", "natural", "formal", "academic", "informal", "funny"]
   }
 ];
 
