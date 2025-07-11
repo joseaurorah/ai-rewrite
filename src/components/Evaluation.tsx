@@ -10,6 +10,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import type DiffMatchPatchType from 'diff-match-patch';
+import DiffMatchPatch from 'diff-match-patch';
 
 interface EvaluationProps {
     activeStyle: string,
@@ -55,6 +57,27 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
     // Add a helper function to count words
     function countWords(text: string) {
         return text.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    // Helper to highlight added/changed words in output
+    function getHighlightedOutput(input: string, output: string) {
+        const dmp: DiffMatchPatchType = new DiffMatchPatch();
+        // Word-level diff: split on spaces, join with special char, diff, then rejoin
+        const inputWords = input.split(/(\s+)/);
+        const outputWords = output.split(/(\s+)/);
+        const inputStr = inputWords.join('\u200B');
+        const outputStr = outputWords.join('\u200B');
+        const diffs = dmp.diff_main(inputStr, outputStr);
+        dmp.diff_cleanupSemantic(diffs);
+        return diffs.map(([op, data]: [number, string], i: number) => {
+            if (op === 1) { // Added
+                return <span key={i} className="text-green-600">{data.replace(/\u200B/g, '')}</span>;
+            } else if (op === 0) { // Unchanged
+                return <span key={i}>{data.replace(/\u200B/g, '')}</span>;
+            } else {
+                return null; // Don't show deletions
+            }
+        });
     }
 
 
@@ -112,7 +135,14 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
                     <div className="block md:hidden h-px w-full bg-gray-200"></div>
                     {/* Right Column */}
                     <div className="flex-1 flex flex-col px-2 py-4">
-                        <Textarea readOnly={!isOutputEditable} onChange={(e) => setUserOutput(e.target.value)} value={userOutput} placeholder='Your output will be here' className={`rounded-xl border min-h-[250px] md:h-[55vh] max-h-screen bg-white text-base font-light resize-none overflow-auto ${!isOutputEditable ? "ring-0 focus-visible:ring-0" : " ring-2 ring-accent_one focus-visible:ring-accent_one"}`} />
+                        <div className={`rounded-xl border min-h-[250px] md:h-[55vh] max-h-screen bg-white text-base font-light resize-none overflow-auto ${!isOutputEditable ? "ring-0 focus-visible:ring-0" : " ring-2 ring-accent_one focus-visible:ring-accent_one"} p-4 whitespace-pre-wrap`}
+                             style={{ outline: 'none', border: '1px solid #e5e7eb' }}
+                             contentEditable={isOutputEditable}
+                             suppressContentEditableWarning={true}
+                             onInput={isOutputEditable ? (e) => setUserOutput((e.target as HTMLElement).innerText) : undefined}
+                        >
+                            {getHighlightedOutput(userInput, userOutput)}
+                        </div>
                         <div className="flex items-center justify-between mt-2">
                             <span className={`text-sm text-accent_one font-semibold`}>{countWords(userOutput)} words</span>
                             <div className="flex items-center gap-2">
