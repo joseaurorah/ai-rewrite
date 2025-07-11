@@ -39,7 +39,7 @@ function Header() {
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-xl text-accent_one">RewriteRocket</span>
+            <span className="text-xl text-accent_one">Paraphraser</span>
           </div>
           <div>
             <span className="text-md font-semibold text-accent_one">

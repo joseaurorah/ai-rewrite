@@ -52,6 +52,11 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
         navigator.clipboard.writeText(text)
     }
 
+    // Add a helper function to count words
+    function countWords(text: string) {
+        return text.trim().split(/\s+/).filter(Boolean).length;
+    }
+
 
     return (
         <>
@@ -59,7 +64,7 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
                 <div className="max-w-5xl w-full bg-white rounded-2xl shadow-lg flex flex-col md:flex-row overflow-hidden mx-auto">
                     {/* Left Column */}
                     <div className="flex-1 flex flex-col px-2 py-4">
-                        <Textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder='Write something to paraphrase...' className='rounded-xl border min-h-[250px] md:h-[40vh] max-h-screen bg-white focus-visible:ring-accent_one text-lg resize-none overflow-auto' />
+                        <Textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder='Write something to paraphrase...' className='rounded-xl border min-h-[250px] md:h-[55vh] max-h-screen bg-white focus-visible:ring-accent_one text-base font-normal resize-none overflow-auto' />
                         <div className="flex items-center justify-between mt-2">
                             <div className="flex items-center gap-2">
                                 <TooltipProvider>
@@ -76,7 +81,7 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                                <span className={`text-sm ${userInput.length < 2000 ? "text-accent_one" : "text-red-600"} font-semibold`}>{userInput.length} characters</span>
+                                <span className={`text-sm ${countWords(userInput) > 1000 ? "text-red-600" : "text-accent_one"} font-semibold`}>{countWords(userInput)}/1000 Words</span>
                             </div>
                             <Button disabled={isLoading || userInput.length < 20 || userInput.length >= 2000} className='px-6 py-2 rounded-full text-lg bg-green-600 hover:bg-green-700 text-white shadow transition-colors duration-200' onClick={() => paraphrase(userInput, activeStyle, activeLanguage)}>
                                 {isLoading ? "Paraphrasing..." : "Paraphrase"}
@@ -88,9 +93,9 @@ function Evaluation({ activeStyle, activeLanguage }: EvaluationProps) {
                     <div className="block md:hidden h-px w-full bg-gray-200"></div>
                     {/* Right Column */}
                     <div className="flex-1 flex flex-col px-2 py-4">
-                        <Textarea readOnly={!isOutputEditable} onChange={(e) => setUserOutput(e.target.value)} value={userOutput} placeholder='Your output will be here' className={`rounded-xl border min-h-[250px] md:h-[40vh] max-h-screen bg-white text-lg resize-none overflow-auto ${!isOutputEditable ? "ring-0 focus-visible:ring-0" : " ring-2 ring-accent_one focus-visible:ring-accent_one"}`} />
+                        <Textarea readOnly={!isOutputEditable} onChange={(e) => setUserOutput(e.target.value)} value={userOutput} placeholder='Your output will be here' className={`rounded-xl border min-h-[250px] md:h-[55vh] max-h-screen bg-white text-base font-normal resize-none overflow-auto ${!isOutputEditable ? "ring-0 focus-visible:ring-0" : " ring-2 ring-accent_one focus-visible:ring-accent_one"}`} />
                         <div className="flex items-center justify-between mt-2">
-                            <span className={`text-sm text-accent_one font-semibold`}>{userOutput.length} characters</span>
+                            <span className={`text-sm text-accent_one font-semibold`}>{countWords(userOutput)} words</span>
                             <div className="flex items-center gap-2">
                                 <TooltipProvider>
                                     <Tooltip>
