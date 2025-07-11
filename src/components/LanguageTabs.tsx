@@ -21,8 +21,8 @@ interface LanguageTabsProps {
 const LanguageTabs = ({ modes, activeStyle, setActiveStyle, activeLanguage, setActiveLanguage }: LanguageTabsProps) => {
     
     return (
-        <div className="">
-            <div className="container pt-8 pb-0"> {/* Further reduced bottom padding */}
+        <div className="w-full bg-white">
+            <div className="max-w-7xl w-full mx-auto pt-8 pb-0"> {/* Consistent width with columns and header */}
                 {/* Language Tabs as horizontal tab bar */}
                 <div className="flex border-b border-gray-200 mb-2 overflow-x-auto whitespace-nowrap -mx-2 px-2">
                     {modes.map((item, idx) => (
